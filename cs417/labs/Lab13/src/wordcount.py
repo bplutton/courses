@@ -84,19 +84,26 @@ def analyze(filepath, ignore_case=False, top=None, min_length=1,
         # words_alphabetically = sorted(Counter(words))
     else:
         lines_to_return = ""
-        lines_to_return += f"{filepath}: {len(words)} words\n\n"
-        lines_to_return += f"Top {top} words:\n"
-        # most_common_words = Counter(words).most_common(top)
         counts = Counter(words)
+        if min_length > 1:
+            for word in list(counts):
+                if len(word) < min_length:
+                    del counts[word]
         most_common_words = counts.most_common(top)
+
+        lines_to_return += f"{filepath}: {sum(counts.values())} words\n\n"
+        lines_to_return += f"Top {top} words:\n"
 
         if sort_by == "alpha" and not reverse:
             sorted_az = sorted(counts.items(), key=lambda item: item[0])
+            most_common_words = sorted_az[:top]
         elif reverse and sort_by == "freq":
-            reversed_counts = counts.most_common()[::-1]
+            reversed_counts = list(counts.most_common())[::-1]
+            most_common_words = reversed_counts[:top]
         elif reverse and sort_by == "alpha":
             sorted_za = sorted(counts.items(), key=lambda item: item[0], reverse=True)
-        most_common_words = most_common_words[:top]
+            most_common_words = sorted_za[:top]
+        
         for item in most_common_words:
             lines_to_return += f'  {item[0]}: {item[1]}\n'
         return lines_to_return
