@@ -1,0 +1,8 @@
+# Override: track the log file (needed for the exercise)
+!server.log
+
+# Solution key — do not distribute
+.solution.sh
+
+# Student-generated output
+report.txt
