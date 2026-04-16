@@ -1,0 +1,9 @@
+{
+  "name": "Alice",
+  "email": "alice@uni.edu",
+  "grades": [92, 88, 95],
+  "address": {
+    "city": "Portland",
+    "state": "OR"
+  }
+}
