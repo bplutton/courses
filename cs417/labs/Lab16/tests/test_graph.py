@@ -166,4 +166,8 @@ class TestFindPath:
         path = find_path(g, "A", "F")
         assert len(path) == 4
         assert path[0] == "A"
+<<<<<<< HEAD
         assert path[-1] == "F"
+=======
+        assert path[-1] == "F"
+>>>>>>> main

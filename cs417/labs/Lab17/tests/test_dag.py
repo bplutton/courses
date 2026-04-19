@@ -313,4 +313,8 @@ class TestCycleRejection:
         nodes[2].add_dependency(nodes[1])
         nodes[3].add_dependency(nodes[2])
         with pytest.raises(CycleError):
+<<<<<<< HEAD
             nodes[0].add_dependency(nodes[3])
+=======
+            nodes[0].add_dependency(nodes[3])
+>>>>>>> main

@@ -34,9 +34,13 @@ class DAGNode:
             name: Identifier for this task.
         """
         # TODO: Store name and initialize dependencies
+<<<<<<< HEAD
         self.name = name
         self.dependencies = set()
     
+=======
+        pass
+>>>>>>> main
 
     def add_dependency(self, node: "DAGNode") -> None:
         """Add a dependency to this node.
@@ -55,6 +59,7 @@ class DAGNode:
         Raises:
             CycleError: If adding this dependency would create a cycle.
         """
+<<<<<<< HEAD
         
         # TODO: Reject self-loops (Task 2)
         if node == self:
@@ -68,6 +73,12 @@ class DAGNode:
         if node not in self.dependencies:
             self.dependencies.add(node)
 
+=======
+        # TODO: Reject self-loops (Task 2)
+        # TODO: Reject cycles using has_ancestor (Task 4)
+        # TODO: Add the dependency
+        pass
+>>>>>>> main
 
     def has_ancestor(self, target: "DAGNode") -> bool:
         """Check if target is an ancestor of this node.
@@ -91,6 +102,7 @@ class DAGNode:
             True if target is reachable via dependencies, False otherwise.
         """
         # TODO: Walk the dependency chain looking for target
+<<<<<<< HEAD
         # pass
         visited = set()
         stack = list(self.dependencies)
@@ -106,3 +118,10 @@ class DAGNode:
     def __repr__(self):
         dep_names = sorted(d.name for d in self.dependencies) if hasattr(self, 'dependencies') else []
         return f"DAGNode({self.name!r}, deps={dep_names})"
+=======
+        pass
+
+    def __repr__(self):
+        dep_names = sorted(d.name for d in self.dependencies) if hasattr(self, 'dependencies') else []
+        return f"DAGNode({self.name!r}, deps={dep_names})"
+>>>>>>> main
