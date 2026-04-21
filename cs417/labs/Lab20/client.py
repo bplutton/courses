@@ -6,7 +6,7 @@ a new function that handles a more realistic scenario.
 
 import requests
 import time
-
+BASE_URL = "http://localhost:8000"
 
 def submit(student: str, lab: int, base_url: str = "http://localhost:8000") -> dict:
     """Task 1: Submit a grading request and return the result.
@@ -16,7 +16,12 @@ def submit(student: str, lab: int, base_url: str = "http://localhost:8000") -> d
     Return the response as a dictionary.
     """
     # TODO: Implement
-    pass
+    # response = submit(student, lab, base_url=BASE_URL)
+    response = requests.post(f"{base_url}/grade", json={"student": student, "lab": lab})
+    if response.status_code != 200:
+        raise RuntimeError(f"Request failed with status code {response.status_code}")
+    else:
+        return response.json()
 
 
 def submit_with_retry(

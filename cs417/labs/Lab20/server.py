@@ -5,8 +5,14 @@ through the tasks. The TODOs tell you what to add and where.
 """
 
 from fastapi import FastAPI
+from grading import grade
+import json
 
 app = FastAPI()
+
+@app.post("/echo")
+def echo(data: dict):
+    return {"you_sent": data}
 
 
 # ---------------------------------------------------------------------------
@@ -19,6 +25,14 @@ app = FastAPI()
 
 # TODO: POST /grade endpoint
 
+@app.post("/grade")
+def grade_endpoint(data: dict):
+    student = data["student"]
+    lab = data["lab"]
+    score = grade(student, lab)
+    # return json{"student": student, "lab": lab, "score": score}
+    return {"student": student, "lab": lab, "score": score}
+
 
 # ---------------------------------------------------------------------------
 # Task 2: Retries Reveal a Problem
@@ -28,13 +42,43 @@ app = FastAPI()
 # to grade(), and (2) append each grading event to the log.
 # Add GET /log and POST /reset-log endpoints.
 
-# TODO: grading_log = []
+# TODO 1
+
+grading_log = []
+
+completed = {}
 
 # TODO: update POST /grade to log events and support "slow"
 
+@app.post("/grade")
+def grade_endpoint(data: dict, submission_id: str | None = None):
+    if (submission_id is not None) and (submission_id in completed):
+        return completed.get(submission_id)
+    else:
+        student = data["student"]
+        lab = data["lab"]
+        slow = data.get("slow", False)
+        score = grade(student, lab, slow=slow) # Use three values in the grading_log
+        grading_log.append([{"student": student, "lab": lab, "score": score, "slow": slow}]) # Add dictionary containing four values
+        if submission_id is not None:
+            completed.append({submission_id: 
+                            {"student": student, "lab": lab, "score": score}
+                            })
+            return completed[submission_id]
+        return {"student": student, "lab": lab, "score": score}
+
 # TODO: GET /log endpoint
 
+@app.get("/log")
+def get_log():
+    return {"entries": grading_log}
+
 # TODO: POST /reset-log endpoint
+
+@app.post("/reset-log")
+def reset_log():
+    grading_log.clear()
+    return {"message": "Grading log reset."}
 
 
 # ---------------------------------------------------------------------------
@@ -46,11 +90,12 @@ app = FastAPI()
 # grading again or logging.
 # Add POST /reset-completed endpoint.
 
-# TODO: completed = {}
-
-# TODO: update POST /grade to check submission_id
-
 # TODO: POST /reset-completed endpoint
+
+@app.post("/reset-completed")
+def reset_completed():
+    completed.clear()
+    return {"message": "Completed submissions reset."}
 
 
 # ---------------------------------------------------------------------------
