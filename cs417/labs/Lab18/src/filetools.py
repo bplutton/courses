@@ -7,6 +7,18 @@ Read, write, and convert between CSV and JSON formats.
 import csv
 import json
 from pathlib import Path
+from typing import TypedDict
+
+
+class StudentRow(TypedDict):
+    name: str
+    email: str
+    grade: str
+
+def read_roster(path: str) -> list[StudentRow]:
+    # pretend this reads a CSV
+    return [{"name": "Alice", "email": "alice@uni.edu", "grade": "92"}]
+
 
 
 def read_csv(filepath: str) -> list[dict[str, str]]:
