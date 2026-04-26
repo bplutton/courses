@@ -47,3 +47,5 @@ Solution C is the easiest for me to understand.
 
 In solutions A and B, the type hints actually match the things that they return. However, in solution C, the type hint
 is "list[int]", which suggests that it would return a list of integers, but it returns a list of tuples instead.
+
+# Continue with Part 3
