@@ -28,3 +28,22 @@ counting occurrences, making it O(n^2) in the worst case.
 ## Prediction 2:
 I would trust **Solution A** the best at 3am during an outage because it has the smallest complexity, which is O(n log k).
 Therefore, it will work the quickest.
+
+
+# Part 2:
+Best: Solution A
+Good: Solution B
+Worst: Solution C
+
+They all handle k = 0 the same.
+
+When k is larger than the number of items, solutions B and C both crash. None of them seems to mutate the input.
+
+Solutions A and B have a loop in their output, while solution C buffers.
+
+None of them seem to change their input.
+
+Solution C is the easiest for me to understand.
+
+In solutions A and B, the type hints actually match the things that they return. However, in solution C, the type hint
+is "list[int]", which suggests that it would return a list of integers, but it returns a list of tuples instead.
