@@ -15,3 +15,8 @@ def grade_lookup(roster: dict[str, int], name: str) -> int:
 
 def first_and_last(items: list[str]) -> tuple[str, str]:
     return items[0], items[-1]
+
+def find_grade(roster: dict[str, int], name: str) -> int | None:
+    if name in roster:
+        return roster[name]
+    return None
