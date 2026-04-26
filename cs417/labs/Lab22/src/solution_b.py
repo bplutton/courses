@@ -20,3 +20,9 @@ def top_k_frequent(items: list[str], k: int) -> list[tuple[str, int]]:
     entries.sort(key=lambda e: (-e[1], e[2]))
 
     return [(item, count) for item, count, _ in entries[:k]]
+
+"""
+The complexity of the return statement is O(k). The sort operation
+is O(n log n) where n is the number of unique items. The list comprehension is O(n) to create the list of entries. Therefore, the
+overall complexity is O(n log n) due to the sorting step, which dominates the other operations.
+"""

@@ -27,3 +27,12 @@ def top_k_frequent(items: list[str], k: int) -> list[int]:
     pairs.sort(key=lambda p: -p[1])
 
     return pairs[:k]
+
+"""
+The complexity of this function is O(n^2) in the worst case. The first loop
+runs in O(n) time to build the seen_order list. The second loop runs in O(m * n) time, where m is the
+number of unique items, because for each unique item we call items.count(), which itself is O(n). The
+sort operation runs in O(m log m) time, where m is the number of unique items. Since m
+can be at most n (if all items are unique), the overall complexity is dominated by the O(n^2) term from
+counting occurrences, making it O(n^2) in the worst case.
+"""

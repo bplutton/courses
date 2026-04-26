@@ -2,15 +2,13 @@
 
 ## Overview
 
-Most labs in this course have asked you to **write** code. This one asks you
-to **read** it.
+Most labs in this course have asked you to **write** code. This one asks you to **read** it.
 
 You will be given three solutions to the same problem — `solution_a.py`,
 `solution_b.py`, `solution_c.py`. All three are correct. All three pass the
-basic test suite. They could have been written by an AI assistant, by an
-intern, by a senior engineer in a hurry, or by yesterday-you. The lab does not
-tell you which, because in real engineering the source of the code is rarely
-the most useful information about it.
+basic test suite. They could have been written by an AI assistant, by an intern, by a senior engineer
+in a hurry, or by yesterday-you. The lab does not tell you which, because in real engineering
+the source of the code is rarely the most useful information about it.
 
 Your job is to **rank them by quality** and **defend your ranking with
 evidence**. That is most of what code review actually is. Real code review is
