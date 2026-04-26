@@ -9,10 +9,12 @@ import json
 from pathlib import Path
 
 
-def read_csv(filepath: str) -> list[dict]:
+def read_csv(filepath: str) -> list[dict[str, str]]:
     """Read a CSV file and return a list of dictionaries.
 
     Each dictionary represents one row, with column headers as keys.
+
+    def read_csv(filepath: str) -> list[dict[str, str]]:
 
     TODO (Task 1):
     - Open the file with encoding="utf-8"
