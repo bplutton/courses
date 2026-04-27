@@ -92,3 +92,22 @@ How to read the tables:
 
     Yes, the Regime 1 picture is different from the Regime 2 picture. More specifically, Regime 1 says that
     solution B is the fastest, while Regime 2 says that solution A is the fastest.
+
+
+# Part 4
+
+- **Scenario A — small, infrequent.** Input is guaranteed to be under 50 items.
+  The function runs once a week in a cron job. Does your ranking from Part 2
+  change? Why or why not?
+
+No, my ranking does not change. At 100 items (the smallest amount of items
+for which the solutions were tested), solution B is faster than solution A by only
+about 50 microseconds, which is insignificant in an application that runs only once
+a week.
+
+- **Scenario B — hot path.** The function runs 10,000 times per second on the
+  request path of a service. The workloads look like Regime 2 from the
+  benchmark — many distinct items. Does your ranking change? What additional
+  concerns surface that didn't matter in Scenario A?
+
+At scale, in regime 2, solution A is still better than solutions B and C. Yes, I would maintain my rankings.
