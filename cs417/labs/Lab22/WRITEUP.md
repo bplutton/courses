@@ -48,4 +48,47 @@ Solution C is the easiest for me to understand.
 In solutions A and B, the type hints actually match the things that they return. However, in solution C, the type hint
 is "list[int]", which suggests that it would return a list of integers, but it returns a list of tuples instead.
 
-# Continue with Part 3
+# Part 3
+=== Regime 1 — small fixed vocabulary (50 distinct items) ===
+         n |   unique |     A (heap) |     B (sort) |     C (loop)
+------------------------------------------------------------------------
+       100 |       50 |       0.09ms |       0.04ms |       0.13ms
+     1,000 |       50 |       0.12ms |       0.33ms |       1.06ms
+    10,000 |       50 |       0.89ms |       0.66ms |       7.51ms
+   100,000 |       50 |      42.65ms |      36.15ms |     254.00ms
+
+=== Regime 2 — vocabulary scales with n (unique ≈ n/2) ===
+         n |   unique |     A (heap) |     B (sort) |     C (loop)
+------------------------------------------------------------------------
+       100 |       50 |       0.06ms |       0.19ms |       0.14ms
+     1,000 |      500 |       1.45ms |       0.36ms |      29.87ms
+    10,000 |    5,000 |      10.87ms |      13.92ms |    1987.66ms
+    50,000 |   25,000 |      16.17ms |      19.85ms |   15496.33ms
+
+How to read the tables:
+  - Per-row: 10x more input. If a column's time grows ~10x, that's linear.
+    If it grows ~100x, that's roughly quadratic.
+  - Compare across regimes: which solutions are sensitive to unique-count?
+    Which are insensitive? Which workload would you choose each for?
+
+
+    As n got larger, its impact on solutions A and B both diminished. However, solution C continues
+    to be sensitive. Solutions A and B are less sensitive.
+
+    In regime 1, I would choose B, whereas in regime 2, I would choose A.
+
+    A and B seem to be roughly competitive with each other. However, when I tried running them, I got
+    an error message saying:
+
+    "src/solution_c.py:29: error: Incompatible return value type (got "list[tuple[str, int]]", expected "list[int]")  [return-value]
+    Found 1 error in 1 file (checked 3 source files)"
+
+    - Did the benchmark numbers confirm or change your ranking from Part 2?
+    - Which variant did `mypy --strict` catch? What did it say?
+    - Was the Regime 1 picture different from the Regime 2 picture? What does the
+      difference suggest about *which kind of workload each variant is suited for*?
+
+    The benchmarks approximately confirm my ranking from Part 2. Solution C got an error when I ran mypy.
+
+    Yes, the Regime 1 picture is different from the Regime 2 picture. More specifically, Regime 1 says that
+    solution B is the fastest, while Regime 2 says that solution A is the fastest.
