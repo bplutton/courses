@@ -111,3 +111,26 @@ a week.
   concerns surface that didn't matter in Scenario A?
 
 At scale, in regime 2, solution A is still better than solutions B and C. Yes, I would maintain my rankings.
+
+## Part 5: Write the PR Comment (10%)
+
+Pick the variant you would **reject** in a real code review. Write the actual
+comment you would leave on the pull request.
+
+A good comment is:
+
+- **Specific** — names the lines and the actual problem
+- **Actionable** — suggests a direction for the fix
+- **Professional** — talks to a colleague, not a punching bag
+
+The skill being graded is *how do I tell someone their code is wrong without
+making them defensive.* It is a skill almost no CS course teaches and almost
+every engineering team relies on.
+
+Aim for 4–8 sentences. Longer is not better.
+
+
+In a real code review, I would reject solution C. Its Big-O complexity is O(n<sup>2</sup>) because lines
+15 through 18 form a nested loop. In addition, line 29 does not check if the variable k is larger
+than the number of unique items. Furthermore, the type hint on line 5 suggests that the function should
+return a list of integers, while, in fact, it returns a list of tuples.
