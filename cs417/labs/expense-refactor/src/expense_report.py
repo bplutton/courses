@@ -102,8 +102,26 @@ def build_report(rows: list[dict], categories: dict) -> dict:
     """Return {category_name: total_amount} for a list of parsed rows.
 
     Pure: must NOT open files, read stdin, or print anything.
+
+    rows = [
+        {"date": "2026-04-01", "vendor": "Starbucks", "amount": "4.85", "note": ""},
+        {"date": "2026-04-01", "vendor": "Shell",     "amount": "52.30", "note": ""},
+    ]
+    totals = build_report(rows, _categories())
     """
-    raise NotImplementedError("Part 3: implement build_report")
+    totals = {}
+    for row in rows:
+        date = row["date"]
+        vendor = row["vendor"]
+        amount = row["amount"]
+        cat = categorize(vendor, categories)  # Also fix categorization to use the helper function
+        totals[cat] = totals.get(cat, 0.0) + float(amount)
+
+    # print("=== Expense Report ===")
+    # for cat, total in sorted(totals.items()):
+    #     print(f"  {cat:<15} ${total:>8.2f}")
+    # print(f"  {'TOTAL':<15} ${sum(totals.values()):>8.2f}")
+    return totals
 
 
 # -----------------------------------------------------------------------------
