@@ -18,7 +18,9 @@ behavior on the starting CSV.
 DO NOT add any external libraries. Standard library only.
 """
 
+import argparse
 import json
+import sys
 from pathlib import Path
 
 
@@ -29,42 +31,15 @@ from pathlib import Path
 def parse_csv(text: str) -> list[dict]:
     """Return a list of row dicts: {"date", "vendor", "amount", "note"}.
     Skip lines that don't have 4 comma-separated fields.
-    
-    text = (
-        "date,vendor,amount,note\n"
-        "2026-04-01,Starbucks,4.85,coffee\n"
-        "2026-04-02,Shell,52.30,gas\n"
-        "bad,line\n"  # malformed — should be skipped
-    )
     """
-    rows = []
-    # with open("data/transactions.csv") as f:
-    lines = text.split("\n")[1:]
-    for line in lines:
-        parts = line.strip().split(",")
-        if len(parts) == 4:
-            parts_dict = {
-                "date": parts[0],
-                "vendor": parts[1],
-                "amount": parts[2],
-                "note": parts[3],
-            }
-            # if len(parts) != 4:
-            #     continue
-            rows.append(parts_dict)
-    return rows
+    raise NotImplementedError("Part 1: implement parse_csv")
 
 
 def parse_json(text: str) -> list[dict]:
     """Return a list of row dicts: {"date", "vendor", "amount", "note"}.
     Input is JSON text — same fields as the CSV, just JSON-shaped.
-    
-    text = json.dumps([
-        {"date": "2026-04-01", "vendor": "Starbucks", "amount": 4.85,  "note": "coffee"},
-        {"date": "2026-04-02", "vendor": "Shell",     "amount": 52.30, "note": "gas"},
-    ])
     """
-    return json.loads(text)
+    raise NotImplementedError("Part 1: implement parse_json")
 
 
 # -----------------------------------------------------------------------------
@@ -77,21 +52,8 @@ def categorize(vendor: str, categories: dict) -> str:
     `categories` maps {category_name: [keyword, keyword, ...]}.
     A vendor matches a category if any of the keywords appears in the
     vendor name (case-insensitive). Return "other" if no category matches.
-
-    {
-    "food":          ["STARBUCKS", "DUNKIN", "WHOLEFOODS", "WHOLE FOODS"],
-    "gas":           ["SHELL", "EXXON"],
-    "shopping":      ["AMAZON", "TARGET"],
-    "entertainment": ["NETFLIX", "SPOTIFY"],
-    "home":          ["HARDWARE"]
-    }
-
     """
-    for cat, keywords in categories.items():
-        for keyword in keywords:
-            if keyword in vendor.upper():
-                return cat
-    return "other"
+    raise NotImplementedError("Part 2: implement categorize")
 
 
 # -----------------------------------------------------------------------------
@@ -112,14 +74,76 @@ def build_report(rows: list[dict], categories: dict) -> dict:
 # Right now it has everything inline.
 # -----------------------------------------------------------------------------
 
-def main():
+def parse_csv(text: str) -> list[dict]:
+    """
+        text = (
+        "date,vendor,amount,note\n"
+        "2026-04-01,Starbucks,4.85,coffee\n"
+        "2026-04-02,Shell,52.30,gas\n"
+        "bad,line\n"  # malformed — should be skipped
+    )
+    """
+
+    rows = []
+    for line in text.splitlines()[1:]:
+        parts = line.strip().split(",")
+        if len(parts) != 4:
+            continue
+        parts_dict = {
+            "date": parts[0],
+            "vendor": parts[1],
+            "amount": parts[2],
+            "note": parts[3]
+        }
+        print(parts_dict)
+        rows.append(parts_dict)
+        print(rows)
+    return rows
+
+
+def parse_csv_file(filepath: str) -> list[dict]:
     rows = []
     with open("data/transactions.csv") as f:
-        for line in f.readlines()[1:]:
-            parts = line.strip().split(",")
-            if len(parts) != 4:
-                continue
-            rows.append(parts)
+        text = f.read()
+    return parse_csv(text)
+    # rows.append(parts)
+    # return rows
+
+
+def parse_json(filepath: str) -> list[dict]:
+    with open(filepath) as f:
+        data = json.load(f)
+    return data
+
+
+def main():
+
+    # parser = argparse.ArgumentParser(description="Process expense report.")
+
+    # parser.add_argument("filename", help="The source file to process")
+
+    # args = parser.parse_args()
+
+    # filepath = args.filename
+    filepath = "data/transactions.csv"
+
+    print("ENTERED MAIN")
+
+    # rows = []
+    # if filepath.endswith(".csv"):
+    #     rows = parse_csv(filepath)
+    # elif filepath.endswith(".json"):
+    #     rows = parse_json(filepath)
+    # else:
+    #     print(f"Error: Unsupported file type for {filepath}", file=sys.stderr)
+    #     exit(1)
+
+    rows = parse_csv_file(filepath)
+    
+    # CHECK 0: Use Argparse to accept the input filename as a command-line argument, instead of hard-coding it here.
+    # CHECK 1: Extract the parsing logic into parse_csv() and parse_json(), and call them here.
+    # CHECK 2: Add a JSON parser.
+    # CHECK 3: Add a statement to select the correct parser based on the file extension (.csv vs .json).
 
     categories = {
         "STARBUCKS": "food",
@@ -136,11 +160,13 @@ def main():
     }
 
     totals = {}
+    print("*"*40)
     for date, vendor, amount, _ in rows:
         cat = "other"
         for key, c in categories.items():
             if key in vendor.upper():
                 cat = c
+        print(f"**** TOTAL: {totals[cat]} ****\n") # DEBUG
         totals[cat] = totals.get(cat, 0.0) + float(amount)
 
     print("=== Expense Report ===")
