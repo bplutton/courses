@@ -18,7 +18,9 @@ behavior on the starting CSV.
 DO NOT add any external libraries. Standard library only.
 """
 
+import argparse
 import json
+# import sys
 from pathlib import Path
 
 
@@ -72,7 +74,7 @@ def build_report(rows: list[dict], categories: dict) -> dict:
 # Right now it has everything inline.
 # -----------------------------------------------------------------------------
 
-def main():
+def parse_csv(filepath: str) -> list[dict]:
     rows = []
     with open("data/transactions.csv") as f:
         for line in f.readlines()[1:]:
@@ -80,6 +82,38 @@ def main():
             if len(parts) != 4:
                 continue
             rows.append(parts)
+    return rows
+
+
+def parse_json(filepath: str) -> list[dict]:
+    with open(filepath) as f:
+        data = json.load(f)
+    return data
+
+
+def main():
+
+    parser = argparse.ArgumentParser(description="Process expense report.")
+
+    parser.add_argument("filename", help="The source file to process")
+
+    args = parser.parse_args()
+
+    filepath = args.filename
+
+    rows = []
+    if filepath.endswith(".csv"):
+        rows = parse_csv(filepath)
+    elif filepath.endswith(".json"):
+        rows = parse_json(filepath)
+    else:
+        print(f"Error: Unsupported file type for {filepath}", file=sys.stderr)
+        exit(1)
+    
+    # TODO 0: Use Argparse to accept the input filename as a command-line argument, instead of hard-coding it here.
+    # TODO 1: Extract the parsing logic into parse_csv() and parse_json(), and call them here.
+    # TODO 2: Add a JSON parser.
+    # TODO 3: Add a statement to select the correct parser based on the file extension (.csv vs .json).
 
     categories = {
         "STARBUCKS": "food",
