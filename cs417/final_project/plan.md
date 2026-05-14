@@ -1,7 +1,7 @@
 ## Implement Game Setup
 
 - [X] Implement Setup Step 1: Create a randomized stock of 52 cards
-- [ ] Implement Setup Step 2: Deal cards from the stock to the working memory stacks
+- [X] Implement Setup Step 2: Deal cards from the stock to the working memory stacks
 - [ ] Implement Print Layout
 
 ## Implement play loop (While game not ended)
