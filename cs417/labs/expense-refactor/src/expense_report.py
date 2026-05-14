@@ -21,6 +21,19 @@ DO NOT add any external libraries. Standard library only.
 import json
 from pathlib import Path
 
+_CATEGORIES = {
+        "STARBUCKS": "food",
+        "DUNKIN": "food",
+        "WHOLEFOODS": "food",
+        "WHOLE FOODS": "food",
+        "SHELL": "gas",
+        "EXXON": "gas",
+        "AMAZON": "shopping",
+        "TARGET": "shopping",
+        "NETFLIX": "entertainment",
+        "SPOTIFY": "entertainment",
+        "HARDWARE": "home",
+    }
 
 # -----------------------------------------------------------------------------
 # TODO Part 1 — fill these in. (See README "Part 1 — Add JSON support".)
@@ -131,40 +144,29 @@ def build_report(rows: list[dict], categories: dict) -> dict:
 # -----------------------------------------------------------------------------
 
 def main():
+    """
+    DONE WHEN:
+
+    - `main()` is now a thin shell: read the file(s), call `parse_csv`,
+      call `build_report`, print the result.
+    """
+
     rows = []
     with open("data/transactions.csv") as f:
-        for line in f.readlines()[1:]:
-            parts = line.strip().split(",")
-            if len(parts) != 4:
-                continue
-            rows.append(parts)
+        rows = parse_csv(f.read())
+        # for line in f.readlines()[1:]:
+        #     parts = line.strip().split(",")
+        #     if len(parts) != 4:
+        #         continue
+        #     rows.append(parts)
 
-    categories = {
-        "STARBUCKS": "food",
-        "DUNKIN": "food",
-        "WHOLEFOODS": "food",
-        "WHOLE FOODS": "food",
-        "SHELL": "gas",
-        "EXXON": "gas",
-        "AMAZON": "shopping",
-        "TARGET": "shopping",
-        "NETFLIX": "entertainment",
-        "SPOTIFY": "entertainment",
-        "HARDWARE": "home",
-    }
-
-    totals = {}
-    for date, vendor, amount, _ in rows:
-        cat = "other"
-        for key, c in categories.items():
-            if key in vendor.upper():
-                cat = c
-        totals[cat] = totals.get(cat, 0.0) + float(amount)
+    totals = build_report(rows, _CATEGORIES)
 
     print("=== Expense Report ===")
     for cat, total in sorted(totals.items()):
         print(f"  {cat:<15} ${total:>8.2f}")
     print(f"  {'TOTAL':<15} ${sum(totals.values()):>8.2f}")
+
 
 
 if __name__ == "__main__":
