@@ -12,8 +12,26 @@
 
     After: This change was not required.
 
-Part 1:
+*single responsibility*, *dependency injection*, *separation of I/O from logic*, *strategy / pluggable parts*.
 
-Part 2:
+Part 1: Design idea: Separation of I/O from logic
 
-Part 3:
+Part 2: Design idea: Single responsibility
+
+Part 3: Design idea: Strategy / Pluggable parts
+
+3. **The change request that hurt the most.** Which of the three was
+   hardest, and why? What was your *first* attempt before you realized
+   it wouldn't work?
+
+   Part 1 was the hardest. This is because I tried to use argparse when it was unnecessary.
+
+4. **One imagined future change.** If next week the requirement is
+   *"now pull transactions from a remote API,"* walk through what you'd
+   add or change in your refactored code. (You don't have to actually
+   implement it. About a paragraph is enough.)
+
+   If I were to call a remote API, I would expect the data to be in JSON.
+
+   I already have a JSON-parsing function. I would just need to change "main()" to pull transactions from a
+   remote API instead of a file.
