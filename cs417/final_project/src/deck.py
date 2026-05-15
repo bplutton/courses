@@ -14,7 +14,19 @@ class Card:
     suit: str
 
     def __str__(self) -> str:
-        return f"{self.rank} of {self.suit}"
+        """Return a compact card code.
+
+        Uses rank first followed by the suit initial. Ten is represented as X,
+        and face cards plus ace use their normal letters: A, J, Q, K.
+        """
+        rank_value = {
+            "10": "X",
+            "A": "A",
+            "J": "J",
+            "Q": "Q",
+            "K": "K",
+        }.get(self.rank, self.rank)
+        return f"{rank_value}{self.suit[0]}"
 
     def __repr__(self) -> str:
         return f"Card(rank={self.rank!r}, suit={self.suit!r})"
