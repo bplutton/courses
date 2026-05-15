@@ -78,9 +78,11 @@ def render_game(
 ) -> None:
     waste_top = str(waste.peek()) if len(waste) else "__"
     foundation_display = [str(foundations[name].peek()) if len(foundations[name]) else "__" for name in FOUNDATION_NAMES]
-    print(f"$$ {len(stock):02d}  WW {waste_top}  CC {foundation_display[0]}  DD {foundation_display[1]}  HH {foundation_display[2]}  SS {foundation_display[3]}")
+    # Print top row without labels or stock count: stock symbol, waste top, then foundations
+    # Place three spaces between the waste stack and the first foundation
+    # add one additional space to separate waste and foundations
+    print(f"$$ {waste_top}    {foundation_display[0]} {foundation_display[1]} {foundation_display[2]} {foundation_display[3]}")
     print()
-    print(" ".join(TABLEAU_NAMES))
 
     max_depth = max(pile.hidden_count() + len(pile.face_up) for pile in tableau.values())
     for row in range(max_depth):
