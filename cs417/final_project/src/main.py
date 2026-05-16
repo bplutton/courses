@@ -2,11 +2,11 @@
 
 """Klondike solitaire command loop."""
 
-from __future__ import annotations
+from __future__ import annotations # for Python 3.7-3.9 compatibility
 
 from typing import Dict, List, Optional, Tuple
 
-try:
+try:            # This is how the AI "fixed" the imports.
     from .deck import Card, Deck
     from .stack import Stack
 except ImportError:
@@ -14,9 +14,9 @@ except ImportError:
     from stack import Stack
 
 
-TABLEAU_NAMES = [f"W{i}" for i in range(1, 8)]
-FOUNDATION_NAMES = ["CC", "DD", "HH", "SS"]
-FOUNDATION_SUIT_MAP = {
+TABLEAU_NAMES = [f"W{i}" for i in range(1, 8)] # Initializes tableau pile names: W1, W2, W3, W4, W5, W6, W7
+FOUNDATION_NAMES = ["CC", "DD", "HH", "SS"]    # Initializes foundation pile names: CC (Clubs), DD (Diamonds), HH (Hearts), SS (Spades)
+FOUNDATION_SUIT_MAP = { # Maps foundation pile names to their corresponding suits
     "CC": "Clubs",
     "DD": "Diamonds",
     "HH": "Hearts",
